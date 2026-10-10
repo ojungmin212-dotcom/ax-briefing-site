@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AX 브리핑</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23e8e8e8'/%3E%3Cpath d='M8 23 16 8l8 15M11 18h10' stroke='%23161616' stroke-width='1.6' fill='none'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css?v=3">
+</head>
+<body>
+  <!-- 석고 양각 배경: 플랜트 배관 도면 모티프 -->
+  <svg class="relief" aria-hidden="true" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1440 900">
+    <defs>
+      <filter id="plaster" x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7" result="n"/>
+        <feDiffuseLighting in="n" surfaceScale="1.1" lighting-color="#fff" result="l">
+          <feDistantLight azimuth="235" elevation="62"/>
+        </feDiffuseLighting>
+        <feComposite in="l" in2="SourceGraphic" operator="in"/>
+      </filter>
+      <filter id="emboss" x="-5%" y="-5%" width="110%" height="110%">
+        <feGaussianBlur in="SourceAlpha" stdDeviation="3.2" result="b"/>
+        <feSpecularLighting in="b" surfaceScale="5" specularConstant=".9" specularExponent="18" lighting-color="#fff" result="s">
+          <feDistantLight azimuth="225" elevation="40"/>
+        </feSpecularLighting>
+        <feComposite in="s" in2="SourceAlpha" operator="in" result="hi"/>
+        <feOffset in="SourceAlpha" dx="3" dy="4" result="o"/>
+        <feGaussianBlur in="o" stdDeviation="4" result="sh"/>
+        <feFlood class="relief-shadow"/>
+        <feComposite in2="sh" operator="in" result="shadow"/>
+        <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/><feMergeNode in="hi"/></feMerge>
+      </filter>
+    </defs>
+    <rect width="1440" height="900" class="relief-noise" filter="url(#plaster)"/>
+    <g class="relief-lines" filter="url(#emboss)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M-20 640 H260 a40 40 0 0 0 40 -40 V360 a40 40 0 0 1 40 -40 H520" stroke-width="16"/>
+      <path d="M520 290 v60" stroke-width="10"/>
+      <circle cx="560" cy="320" r="46" stroke-width="12"/>
+      <path d="M606 320 H760 a30 30 0 0 1 30 30 V520" stroke-width="12"/>
+      <path d="M770 520 h40 l-20 34 z M770 588 h40 l-20 -34 z" stroke-width="7"/>
+      <path d="M790 588 V760 a30 30 0 0 0 30 30 H1460" stroke-width="12"/>
+      <path d="M1100 790 V600 a26 26 0 0 1 26 -26 H1260" stroke-width="9"/>
+      <rect x="1260" y="470" width="120" height="210" rx="60" stroke-width="12"/>
+      <path d="M1320 470 V120 a36 36 0 0 0 -36 -36 H980" stroke-width="10"/>
+      <circle cx="940" cy="84" r="22" stroke-width="8"/>
+      <path d="M120 640 v90 M100 730 h40" stroke-width="7"/>
+      <path d="M360 320 V170 a30 30 0 0 1 30 -30 H640" stroke-width="7"/>
+    </g>
+  </svg>
+
+  <!-- 인트로 -->
+  <div class="intro" id="intro" aria-hidden="true">
+    <div class="intro-row">
+      <span class="wordmark">AX&nbsp;BRIEFING</span>
+      <span class="intro-line">플랜트설계 AX 모닝 브리핑</span>
+      <span class="intro-count" id="intro-count">0</span>
+    </div>
+  </div>
+
+  <header class="topbar">
+    <a class="wordmark" href="#briefing" aria-label="오늘의 브리핑으로">AX&nbsp;BRIEFING</a>
+    <button class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu"><span id="menu-label">Menu</span><i></i></button>
+  </header>
+
+  <!-- 전체 화면 메뉴 -->
+  <div class="menu" id="menu" hidden>
+    <nav class="menu-nav" id="nav">
+      <a href="#briefing" data-view="briefing">오늘의 브리핑<sup id="nav-unread"></sup></a>
+      <a href="#articles" data-view="articles">전체 기사</a>
+      <a href="#pinned" data-view="pinned">스크랩<sup id="nav-pinned"></sup></a>
+      <a href="#trends" data-view="trends">트렌드</a>
+      <a href="#sources" data-view="sources">소스</a>
+      <a href="#settings" data-view="settings">설정</a>
+    </nav>
+    <div class="menu-foot">
+      <button class="link-btn" id="btn-collect">지금 수집</button>
+      <div class="collect-status" id="collect-status">…</div>
+    </div>
+  </div>
+
+  <main class="main" id="view" tabindex="-1"></main>
+
+  <footer class="corner-left">
+    <button class="link-btn" id="btn-collect-2">지금 수집 <span class="arrow">↻</span></button>
+  </footer>
+  <div class="corner-right" title="수집 상태">
+    <div class="progress" id="collect-progress" hidden><div class="bar"></div></div>
+    <span class="status-dot" id="status-dot"></span>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <script>window.AX_STATIC = true;</script>
+  <script src="app.js?v=3"></script>
+</body>
+</html>
